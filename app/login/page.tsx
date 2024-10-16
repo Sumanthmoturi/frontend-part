@@ -1,14 +1,26 @@
-// app/login/page.tsx
 'use client';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-const Login = () => {
-  const { register, handleSubmit } = useForm();
+// Define the shape of the form data
+interface LoginForm {
+  mobile: string;
+  password: string;
+}
 
-  const onSubmit = async (data) => {
-    // Handle login logic
-    alert('Login successful');
+const Login = () => {
+  const { register, handleSubmit } = useForm<LoginForm>();
+
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      // Make an API call for login
+      const response = await axios.post('http://localhost:3001/login', data);
+      // Handle successful login
+      alert('Login successful');
+    } catch (error) {
+      console.error('Login failed', error);
+      alert('Login failed. Please try again.');
+    }
   };
 
   return (

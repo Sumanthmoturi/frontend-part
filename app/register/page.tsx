@@ -1,14 +1,28 @@
-// app/register/page.tsx
 'use client';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-const Register = () => {
-  const { register, handleSubmit } = useForm();
+// Define the shape of the form data
+interface RegisterForm {
+  name: string;
+  mobile: string;
+  gender: string;
+  country: string;
+  email: string;
+  password: string;
+}
 
-  const onSubmit = async (data) => {
-    await axios.post('/api/users', data);
-    alert('Registration successful');
+const Register = () => {
+  const { register, handleSubmit } = useForm<RegisterForm>();
+
+  const onSubmit = async (data: RegisterForm) => {
+    try {
+      await axios.post('/api/users', data);
+      alert('Registration successful');
+    } catch (error) {
+      console.error('Registration failed', error);
+      alert('Registration failed. Please try again.');
+    }
   };
 
   return (
